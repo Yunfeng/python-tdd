@@ -66,7 +66,7 @@ class NewVisitorTest(LiveServerTestCase):
 
 		#now, a new user visit our website
 		self.browser.quit()
-		self.browser = WebDriver.Firefox()
+		self.browser = webdriver.Firefox()
 
 		#francis visit homepage , there is nothing
 		self.browser.get(self.live_server_url)
