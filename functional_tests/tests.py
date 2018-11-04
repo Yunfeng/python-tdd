@@ -27,6 +27,7 @@ class NewVisitorTest(LiveServerTestCase):
 					raise e
 				time.sleep(0.5)
 
+
 	def test_can_start_a_list_for_one_user(self):
 		self.browser.get(self.live_server_url)
 
@@ -49,7 +50,6 @@ class NewVisitorTest(LiveServerTestCase):
 		inputBox.send_keys(Keys.ENTER)
 		self.wait_for_row_in_list_table('1: Buy peacock feathers')
 		self.wait_for_row_in_list_table('2: Use peacock feathers to make a fly')
-
 
 	def test_multiple_users_can_start_lists_at_different_urls(self):
 		# edith create a new to-do list
@@ -90,3 +90,27 @@ class NewVisitorTest(LiveServerTestCase):
 		self.assertNotIn('make a fly', page_text)
 
 		# two users close browser
+
+	def test_layout_and_styling(self):
+		# 伊迪斯访问首页
+		self.browser.get(self.live_server_url)
+		self.browser.set_window_size(1024, 768)
+
+		# 她看到输入框居中显示
+		inputbox = self.browser.find_element_by_id('id_new_item')
+		self.assertAlmostEqual(
+			inputbox.location['x'] + inputbox.size['width'] / 2,
+			512,
+			delta=10
+		)
+
+		# 她新建了一个清单，看到输入框任然居中显示
+		inputbox.send_keys('testing')
+		inputbox.send_keys(Keys.ENTER)
+		self.wait_for_row_in_list_table('1: testing')
+		inputbox = self.browser.find_element_by_id('id_new_item')
+		self.assertAlmostEqual(
+			inputbox.location['x'] + inputbox.size['width'] / 2,
+			512,
+			delta=10
+		)
